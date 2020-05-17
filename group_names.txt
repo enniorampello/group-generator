@@ -1,0 +1,7 @@
+first course,456745
+second course,684686
+third course,157684
+fourth course,321321
+fifth course,789456
+sixth course,654963
+seventh course,357951
