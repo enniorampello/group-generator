@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import ElementClickInterceptedException
 
+
 # personal constants depending on the pc
 CHROME_PROFILE_PATH = '--user-data-dir=/Users/enniorampello/Library/Application Support/Google/Chrome'
 CHROME_DRIVER_PATH = '/Users/enniorampello/venv/chromedriver'
