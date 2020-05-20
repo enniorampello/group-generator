@@ -20,7 +20,6 @@ create_group_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[3]/div/bu
 group_name_tab_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[1]/form/div/input'
 confirm_create_group_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[2]/button[2]'
 group_header_xpath = '//*[@id="ng-app"]/body/div[1]/div[1]/div/div/div[2]/div/div[2]/a/div'
-popup_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div'
 upgrade_supergroup_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[3]/div[1]/div[5]/div/a'
 confirm_upgrade_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div/div[2]/button[2]/span'
 group_upgraded_message = '//*[@id="ng-app"]/body/div[1]/div[2]/div/div[2]/div[3]/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/div[2]/div[2]/div/div/div/span/span/span'
