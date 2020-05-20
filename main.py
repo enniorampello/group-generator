@@ -5,11 +5,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import ElementClickInterceptedException
 
-
+# personal constants depending on the pc
 CHROME_PROFILE_PATH = '--user-data-dir=/Users/enniorampello/Library/Application Support/Google/Chrome'
 CHROME_DRIVER_PATH = '/Users/enniorampello/venv/chromedriver'
 TEXT_FILE_PATH = '/Users/enniorampello/GroupGenerator/group_names.txt'
 
+# xpaths of the various buttons to click and text tabs
 hamburger_button_xpath = '//*[@id="ng-app"]/body/div[1]/div[1]/div/div/div[1]/div/a'
 popup_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div'
 new_group_xpath = '//*[@id="ng-app"]/body/div[1]/div[1]/div/div/div[1]/div/ul/li[1]/a'
@@ -27,13 +28,12 @@ modify_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[1]/div[1]/div[1
 description_tab_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div/div[1]/form/div[2]/input'
 save_modification_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div/div[2]/button[2]'
 
-
+# the two main function to click a button and to write in a tab
 def click(xpath):
     wait.until(ec.element_to_be_clickable((By.XPATH, xpath))).click()
 
 def write(xpath: str, text: str):
     wait.until(ec.presence_of_element_located((By.XPATH, xpath))).send_keys(text)
-
 
 
 # load the default profile in order not to login every time
@@ -78,7 +78,8 @@ for line in lines:
     click(confirm_create_group_xpath)
 
     time.sleep(1)
-    # add comment...
+    # if trying to click the group header an exception occurs, it means that the popup had a delay of its closure
+    # so we wait until it is not visible anymore to click again the group header
     try:
         click(group_header_xpath)
     except ElementClickInterceptedException:
@@ -89,7 +90,8 @@ for line in lines:
     click(upgrade_supergroup_xpath)
     click(confirm_upgrade_xpath)
 
-
+    # this block waits until the confirmation of the upgrade to supergroup through a message in the chat
+    # and then it executes the addition of the description
     wait.until(ec.presence_of_element_located((By.XPATH, group_upgraded_message))).click()
     try:
         click(group_header_xpath)
