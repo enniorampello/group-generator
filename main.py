@@ -1,4 +1,5 @@
 import time
+from constants import Constants
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,16 +8,16 @@ from selenium.common.exceptions import ElementClickInterceptedException
 
 
 # personal constants depending on the pc
-CHROME_PROFILE_PATH = '--user-data-dir=/Users/enniorampello/Library/Application Support/Google/Chrome'
-CHROME_DRIVER_PATH = '/Users/enniorampello/venv/chromedriver'
-TEXT_FILE_PATH = '/Users/enniorampello/GroupGenerator/group_names.txt'
+CHROME_PROFILE_PATH = Constants.chrome_profile_path
+CHROME_DRIVER_PATH = Constants.chrome_driver_path
+TEXT_FILE_PATH = Constants.text_file_path
 
 # xpaths of the various buttons to click and text tabs
 hamburger_button_xpath = '//*[@id="ng-app"]/body/div[1]/div[1]/div/div/div[1]/div/a'
 popup_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div'
 new_group_xpath = '//*[@id="ng-app"]/body/div[1]/div[1]/div/div/div[1]/div/ul/li[1]/a'
 search_tab_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[2]/div[1]/input'
-riccardo_cuccu_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[2]/div[2]/div/div[1]/ul/li/a/div[2]'
+bot_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[2]/div[2]/div/div[1]/ul/li[1]'
 create_group_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[3]/div/button[2]'
 group_name_tab_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[1]/form/div/input'
 confirm_create_group_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[2]/button[2]'
@@ -68,8 +69,8 @@ for line in lines:
     click(new_group_xpath)
 
     # select riccardo cuccu to create a group and click on create
-    write(search_tab_xpath,'riccardo cuccu')
-    click(riccardo_cuccu_xpath)
+    write(search_tab_xpath,'group help')
+    click(bot_xpath)
     click(create_group_xpath)
 
     time.sleep(1)
