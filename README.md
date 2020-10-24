@@ -1,7 +1,7 @@
 # Group-Generator
 
 ## Introduzione
-L'obbiettivo di tale programma è la generazione automatica di un elevato numero di gruppi Telegram, ognuno dei quali rappresenterà un differente corso di Ingegneria Elettronica al Politecnico di Torino.<br/>
+L'obiettivo del programma è la generazione automatica di un elevato numero di gruppi Telegram, ognuno dei quali rappresenterà un differente corso di Ingegneria Elettronica al Politecnico di Torino.<br/>
 Si è scelto di utilizzare la libreria **selenium webdriver** in quanto permette l'utilizzo del browser (in questo caso Chrome) in modo automatizzato.
 La scelta di utilizzare questa libreria è risultata la migliore, per semplicità di sviluppo e di esecuzione.<br/>
 Il nome di tali gruppi è prelevato da un file di testo chiamato `group_names.txt`, il quale riporta per ogni riga il nome del corso e il codice corrispondente nel seguente formato:
