@@ -1,7 +1,7 @@
 # Group-Generator
-
+## **Documentation to be updated**
 ## Introduzione
-L'obbiettivo di tale programma è la generazione automatica di un elevato numero di gruppi Telegram, ognuno dei quali rappresenterà un differente corso di Ingegneria Elettronica al Politecnico di Torino.<br/>
+L'obiettivo di tale programma è la generazione automatica di un elevato numero di gruppi Telegram, ognuno dei quali rappresenterà un differente corso di Ingegneria Elettronica al Politecnico di Torino.<br/>
 Si è scelto di utilizzare la libreria **selenium webdriver** in quanto permette l'utilizzo del browser (in questo caso Chrome) in modo automatizzato.
 La scelta di utilizzare questa libreria è risultata la migliore, per semplicità di sviluppo e di esecuzione.<br/>
 Il nome di tali gruppi è prelevato da un file di testo chiamato `group_names.txt`, il quale riporta per ogni riga il nome del corso e il codice corrispondente nel seguente formato:
@@ -65,6 +65,7 @@ Un esempio di comando per cliccare un pulsante è il seguente:
   - Aspettare la scomparsa del pop-up e cliccare sull'header del gruppo di nuovo;
   - Selezionare *Modifica* e inserire la descrizione;
   - Cliccare su *Salva*;
+  
   
 ## Problemi e risoluzioni
 Il problema che bisogna affrontare al momento è quello di un errore che viene mandato dal server di *Telegram* nel caso in cui viene identificata una velocità di esecuzione delle operazioni troppo elevata.

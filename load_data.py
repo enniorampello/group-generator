@@ -5,7 +5,7 @@
 import json
 import pandas as pd
 
-with open(r'/Users/enniorampello/GroupGenerator/database.json', 'r') as file:
+with open(r'/Users/enniorampello/group-generator/database.json', 'r') as file:
     data = json.load(file)
 
 courses = data.get('corsi')
@@ -14,4 +14,4 @@ courses_df = pd.DataFrame(courses)
 courses_df = courses_df.transpose()
 courses_df = courses_df[['code','name','link']]
 
-courses_df.to_csv(r'/Users/enniorampello/GroupGenerator/database.csv')
+courses_df.to_csv(r'/Users/enniorampello/group-generator/database.csv')

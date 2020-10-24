@@ -1,109 +1,76 @@
-import time
-from constants import Constants
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
-from selenium.common.exceptions import ElementClickInterceptedException
+from telethon import TelegramClient
+from telethon.tl import functions
+from telethon.client.chats import ChatMethods
+from telethon.events.newmessage import NewMessage
+import asyncio
+from time import sleep
+
+with open('./api.txt', 'r') as keys:
+    api_id = int(keys.readline())
+    api_hash = keys.readline()
+
+default_msg = 'Hi! This message has been sent (again) through the Telegram Api.'
+group_help_bot_username = 'GroupHelpBot'
+add_bot_command = '/start@GroupHelpOfficialClone3Bot'
 
 
-# personal constants depending on the pc
-CHROME_PROFILE_PATH = Constants.chrome_profile_path
-CHROME_DRIVER_PATH = Constants.chrome_driver_path
-TEXT_FILE_PATH = Constants.text_file_path
+async def main():
+    async with TelegramClient('groupgen', api_id, api_hash) as client:
+        channel_name = 'third group'
+        result = await client(functions.channels.CreateChannelRequest(
+            title=channel_name,
+            about='This group has been created through the Telegram API',
+            megagroup=True,
+        ))
+        channel_id = result.updates[1].channel_id
+        await ChatMethods.edit_permissions(
+            client,
+            channel_id,
+            change_info=False,
+            pin_messages=False
+        )
 
-# xpaths of the various buttons to click and text tabs
-hamburger_button_xpath = '//*[@id="ng-app"]/body/div[1]/div[1]/div/div/div[1]/div/a'
-popup_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div'
-new_group_xpath = '//*[@id="ng-app"]/body/div[1]/div[1]/div/div/div[1]/div/ul/li[1]/a'
-search_tab_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[2]/div[1]/input'
-bot_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[2]/div[2]/div/div[1]/ul/li[1]'
-create_group_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[3]/div/button[2]'
-group_name_tab_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[1]/form/div/input'
-confirm_create_group_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[2]/button[2]'
-group_header_xpath = '//*[@id="ng-app"]/body/div[1]/div[1]/div/div/div[2]/div/div[2]/a/div'
-upgrade_supergroup_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[3]/div[1]/div[5]/div/a'
-confirm_upgrade_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div/div[2]/button[2]/span'
-group_upgraded_message = '//*[@id="ng-app"]/body/div[1]/div[2]/div/div[2]/div[3]/div/div[2]/div[1]/div/div[1]/div[2]/div[2]/div[3]/div/div/div/div[2]/div/div[1]'
-modify_xpath = '//*[@id="ng-app"]/body/div[6]/div[2]/div/div/div[1]/div[1]/div[1]/a[2]'
-description_tab_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div/div[1]/form/div[2]/input'
-save_modification_xpath = '//*[@id="ng-app"]/body/div[7]/div[2]/div/div/div[2]/button[2]'
+        await client.send_message(
+            channel_id,
+            add_bot_command
+        )
 
-# the two main function to click a button and to write in a tab
-def click(xpath):
-    wait.until(ec.element_to_be_clickable((By.XPATH, xpath))).click()
+        NewMessage(
+            channel_id,
+            incoming=True,
+            outgoing=False,
+            from_users=group_help_bot_username,
+            func= add_bot(client, channel_id)
+        )
 
-def write(xpath: str, text: str):
-    wait.until(ec.presence_of_element_located((By.XPATH, xpath))).send_keys(text)
+        await ChatMethods.edit_admin(
+            client,
+            channel_id,
+            group_help_bot_username,
+            is_admin=True
+        )
 
+        sleep(60)
 
-# load the default profile in order not to login every time
-options = webdriver.ChromeOptions()
-options.add_argument(CHROME_PROFILE_PATH)
+        await client(functions.channels.DeleteChannelRequest(
+            channel_id
+        ))
 
-# get the chromedriver and open Telegram already logged in
-driver = webdriver.Chrome(executable_path=CHROME_DRIVER_PATH, options=options)
-driver.get('https://web.telegram.org/')
+async def add_bot(client, channel_id):
+    return await client.send_message(
+        channel_id,
+        add_bot_command
+    )
 
-# default object to wait until an element becomes clickable
-wait = WebDriverWait(driver, timeout=30)
-
-time.sleep(4)
-
-# open the file containing in each line the name of a group
-file = open(TEXT_FILE_PATH, 'r')
-lines = file.readlines()
-
-# iterate through all the group names and create the corresponding Telegram groups
-for line in lines:
-
-    name = line.split(',')[0]
-    code = line.split(',')[1]
-    # selecting the createGroup() button and click it
-    try:
-        click(hamburger_button_xpath)
-    except ElementClickInterceptedException:
-        wait.until(ec.invisibility_of_element((By.XPATH, popup_xpath)))
-        click(hamburger_button_xpath)
-
-    click(new_group_xpath)
-
-    # select riccardo cuccu to create a group and click on create
-    write(search_tab_xpath,'group help')
-    click(bot_xpath)
-    click(create_group_xpath)
-
-    time.sleep(1)
-    # write the name of the group and create it
-    write(group_name_tab_xpath,name)
-    click(confirm_create_group_xpath)
-
-    time.sleep(1)
-    # if trying to click the group header an exception occurs, it means that the popup had a delay of its closure
-    # so we wait until it is not visible anymore to click again the group header
-    try:
-        click(group_header_xpath)
-    except ElementClickInterceptedException:
-        time.sleep(1)
-        wait.until(ec.invisibility_of_element((By.XPATH, popup_xpath)))
-        click(group_header_xpath)
-
-    click(upgrade_supergroup_xpath)
-    click(confirm_upgrade_xpath)
-
-    # this block waits until the confirmation of the upgrade to supergroup through a message in the chat
-    # and then it executes the addition of the description
-    wait.until(ec.presence_of_element_located((By.XPATH, group_upgraded_message))).click()
-    try:
-        click(group_header_xpath)
-    except ElementClickInterceptedException:
-        wait.until(ec.invisibility_of_element((By.XPATH, popup_xpath)))
-        click(group_header_xpath)
+if __name__ == '__main__':
+    asyncio.run(main())
 
 
-    click(modify_xpath)
-    time.sleep(1)
-    write(description_tab_xpath,f'Group of the course: {name}; Code: {code};')
-    click(save_modification_xpath)
 
-file.close()
+'''
+third course,157684
+fourth course,321321
+fifth course,789456
+sixth course,654963
+seventh course,357951
+'''
