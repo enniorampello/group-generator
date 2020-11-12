@@ -1,0 +1,10 @@
+/keys.py
+/.idea
+/venv/
+/database.csv
+/database.json
+/missing_links.txt
+/scraped_courses.txt
+/groupgen.session
+/group_names.txt
+/__pycache__
