@@ -2,16 +2,17 @@ from telethon import TelegramClient
 from telethon.tl import functions
 import asyncio
 from keys import get_keys
+from csv import DictReader
 
 
 api_id = get_keys()['id']
 api_hash = get_keys()['hash']
 
-group_help_bot_username = 'GroupHelpOfficialClone2Bot'
+group_help_bot_username = 'hkbannerbot'
 channel_ids = []
 
 async def main():
-    async with TelegramClient('groupgen', api_id, api_hash) as client:
+    async with TelegramClient('groupgen', api_id, api_hash) as client, open:
         channel_name = 'test channel'
         result = await client(functions.channels.CreateChannelRequest(
             title=channel_name,
@@ -36,5 +37,5 @@ if __name__ == '__main__':
     asyncio.run(main())
 
 '''
-hour_count = 3g
+hour_count = 20
 '''

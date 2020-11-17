@@ -1,19 +1,23 @@
 import csv
+import pandas as pd
 
-with open('group_names.txt', 'r') as names, open('database.csv', 'r') as db, open('missing_links.txt', 'w') as miss:
-    reader = csv.DictReader(db)
-    for name in names.readlines():
-        name = name.rstrip("\n")
+with open('group_names.txt', 'r') as gn, open('courses_triennale.csv', 'r') as ct, open('coursess.csv', 'w') as c:
+    reader = csv.DictReader(ct)
+    for new_course in reader:
         found = False
-        for row in reader:
-            course = row['name']
-            if course == name:
+        for existing_course in gn.readlines():
+            existing_course = existing_course.rstrip("\n")
+            course = new_course['name']
+            if course.lower() == existing_course.lower():
                 found = True
-                print(name + ' found!!!')
                 break
-        db.seek(0)
+        gn.seek(0)
         if not found:
-            miss.write(name + '\n')
+            print('writing...')
+            if ',' in new_course['name']:
+                c.write(new_course['id'] + ',"' + new_course['name'] + '"\n')
+            else:
+                c.write(new_course['id'] + ',' + new_course['name'] + '\n')
         
         
 
