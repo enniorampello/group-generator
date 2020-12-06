@@ -3,6 +3,7 @@ from telethon.tl import functions
 import asyncio
 from keys import get_keys
 import pandas as pd
+from time import sleep
 
 
 api_id = get_keys()['id']
@@ -12,7 +13,7 @@ group_help_bot_username = 'hkbannerbot'
 
 async def main():
     async with TelegramClient('groupgen', api_id, api_hash) as client:
-        df = pd.read_csv('courses.csv')
+        df = pd.read_csv('courses4.csv')
         links = []
         channel_ids = []
         for idx, course in df.iterrows():
@@ -43,9 +44,10 @@ async def main():
                 channel_id,
                 '/setgruppostaff -1001145664991',
             ))
+            sleep(60)
         df['channel_id'] = channel_ids
         df['channel_link'] = links
-        df.to_csv('courses.csv')
+        df.to_csv('courses4.csv')
 
 
 if __name__ == '__main__':
